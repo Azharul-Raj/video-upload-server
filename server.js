@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const fs = require("fs");
 
 const server = express();
@@ -12,17 +12,21 @@ server.listen(port, () => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/videos");
+    cb(null, "upload/videos");
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.originalname + "-" + uniqueSuffix);
+    cb(null, file.originalname );
   },
 });
 
 const upload=multer({storage})
+
 //video posting route
-server.post("/upload",upload.single("videoFile"),(req,res)=>{
+/*************************************************************
+ * MAKE SURE YOU WRITE THE EXACT NAME IN THE FORM FIELD. 
+ * In our case the field name is "video"
+ **************************************************************/
+server.post("/upload",upload.single("video"),(req,res)=>{
     try {
         res.send("File uploaded successfully")
     } catch (error) {
