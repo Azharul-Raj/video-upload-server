@@ -33,3 +33,18 @@ server.post("/upload",upload.single("video"),(req,res)=>{
         console.log(error);
     }
 });
+
+
+// video downloading route
+server.get("/download/:filename",(req,res)=>{
+  try {
+    const file=__dirname+"/upload/videos/"+req.params.filename;
+    if(!file){
+      return res.send(`${req.params.filename} is not available.`)
+    }
+    res.download(file);
+    
+  } catch (error) {
+    console.log(error);
+  }
+})
